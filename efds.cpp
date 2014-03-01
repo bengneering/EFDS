@@ -6,9 +6,9 @@
 #include <time.h>
 #include "Frame.h"
 #include "Queue.h"
+#include "raiseAlarm.h"
 
 
-//testin github again for the last time
 
 using namespace cv;
 using namespace std;
@@ -69,10 +69,9 @@ void initialize1(VideoCapture &);
 
 void addImage1(VideoCapture &);
 
-void initialize2(/*VideoCapture &*/); 
+void initialize2(); 
 
-void addImage2(/*VideoCapture &*/);
-//void ColorInspection(Mat, Mat &, Mat &, Mat &);
+void addImage2();
 
 void ColorSep(Mat, Mat &, Mat &, Mat &);
 
@@ -90,21 +89,20 @@ float elongationFactor(Mat);
 
 void calcGrowthRate(FRAME , FRAME);
 
-
-
 void monitorGrowthRate();
 
 void RaiseAlarm();
 
 void sleep(time_t);
 
-
 void smokeMask();
 
 void fireMask();
 
 void Connector(Mat , int , int );
+
 Mat DoubleThresholding(int, int, Mat, int, int);
+
 Mat equalize(Mat);
 
 
@@ -147,7 +145,7 @@ int main( int argc, char** argv )
              waitKey(1000);
              if(keytimer == 0 && !possible_fire){
                 keyframe = frame.image;
-                //keyframe = equalize(keyframe);
+                RaiseAlarm(0);
                 keytimer = 10;
                 }
              else 
@@ -194,7 +192,7 @@ int main( int argc, char** argv )
                }
                
                else if(vote >= 9){  //certain fire/smoke
-                    RaiseAlarm();
+                    RaiseAlarm(1);
                     XthFrame = 20; 
                     }
                     
